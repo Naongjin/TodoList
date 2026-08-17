@@ -26,33 +26,61 @@ export default function ItemDetailPage({ params }: PageProps) {
   const numericId = Number(itemId);
 
   const [itemData, setItemData] = useState<any>(null);
+
+  // 수정 중인지 비교하기 위해 원본 메모 기억하기 => 수정완료 액티브
+  const [name, setName] = useState("");
+  const [initialName, setInitialName] = useState("");
+
   const [memo, setMemo] = useState("");
-  // 수정 중인지 비교하기 위해 원본 메모 기억하기
   const [initialMemo, setInitialMemo] = useState("");
 
-  useEffect(() => {
+  const [initialImageUrl, setInitialImageUrl] = useState("");
+
+  const fetchTodos = () => {
     getItemDetail(numericId)
       .then((data) => {
         setItemData(data);
+
+        // 서버 데이터로 현재 값과 원본 값 모두 초기화
+        setName(data.name || "");
+        setInitialName(data.name || "");
+
         const serverMemo = data.memo || "";
         setMemo(serverMemo);
         setInitialMemo(serverMemo);
+
+        const serverImageUrl = data.imageUrl || "";
+        setInitialImageUrl(serverImageUrl);
       })
       .catch((err) => console.error("상세 조회 실패", err));
+  };
+
+  useEffect(() => {
+    fetchTodos();
   }, [numericId]);
 
+  const isNameChanged = name !== initialName;
   const isMemoChanged = memo !== initialMemo;
-  const editBtnState = isMemoChanged ? "Active" : "Default";
+  const currentImageUrl = itemData?.imageUrl || "";
+  const isImageChanged = currentImageUrl !== initialImageUrl;
 
+  const isChanged = isNameChanged || isMemoChanged || isImageChanged;
+  const editBtnState = isChanged ? "Active" : "Default";
+
+  // 수정 완료 버튼 클릭 시
   const handleEdit = async () => {
     try {
       await updateItem(numericId, {
-        name: itemData.name,
+        name: name,
         memo: memo,
         imageUrl: itemData.imageUrl,
       });
+      // 수정 성공 시 현재 상태를 원본으로 기억
+      setInitialName(name);
       setInitialMemo(memo);
+      setInitialImageUrl(itemData.imageUrl || "");
       alert("메모가 수정되었습니다.");
+      router.push("/");
     } catch (err) {
       console.error("수정 실패", err);
       alert("수정에 실패했습니다.");
@@ -77,15 +105,9 @@ export default function ItemDetailPage({ params }: PageProps) {
     if (!file) return;
 
     try {
-      const imageUrl = await uploadImage(file);
+      const uploadedUrl = await uploadImage(file);
 
-      await updateItem(numericId, {
-        name: itemData.name,
-        memo: memo,
-        imageUrl: imageUrl,
-      });
-
-      setItemData((prev: any) => ({ ...prev, imageUrl }));
+      setItemData((prev: any) => ({ ...prev, imageUrl: uploadedUrl }));
       alert("이미지가 성공적으로 업로드되었습니다.");
     } catch (err) {
       console.error("이미지 업로드 실패", err);
@@ -93,16 +115,29 @@ export default function ItemDetailPage({ params }: PageProps) {
     }
   };
 
+  const handleToggle = async () => {
+    try {
+      await updateItem(numericId, {
+        isCompleted: !itemData.isCompleted,
+      });
+      fetchTodos();
+    } catch (err) {
+      console.error("토글 실패", err);
+    }
+  };
+
   return (
     <main className="max-w-[1200px] mx-auto h-screen px-[102px] py-4 flex flex-col items-center gap-6 bg-white">
       <CheckList_Detail
-        label={itemData.name}
+        label={name}
         checked={itemData.isCompleted}
+        onToggle={handleToggle}
+        onNameChange={(newName) => setName(newName)}
       ></CheckList_Detail>
       {/* 이미지 & 메모 */}
-      <div className="w-full flex flex-row gap-6 justify-center">
+      <div className="w-full flex flex-col lg:flex-row gap-6 justify-center">
         {/* 이미지 업로드 박스 */}
-        <div className="relative w-[384px] h-[311px] rounded-[24px] border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center overflow-hidden">
+        <div className="relative w-full lg:w-[384px] h-[311px] rounded-[24px] border-2 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center overflow-hidden">
           {/* 데이터에 저장된 이미지가 있는 경우와 없는 경우 */}
           {itemData.imageUrl ? (
             <div className="relative w-full h-full">
@@ -126,7 +161,7 @@ export default function ItemDetailPage({ params }: PageProps) {
           )}
         </div>
         {/* 메모 영역 */}
-        <div className="relative w-[588px] h-[311px]">
+        <div className="relative w-full lg:w-[588px] h-[311px]">
           <Image
             src={MemoBg}
             alt="메모 배경"
@@ -138,13 +173,18 @@ export default function ItemDetailPage({ params }: PageProps) {
             <textarea
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
-              className="w-full h-full bg-transparent resize-none outline-none"
+              className="w-full h-full bg-transparent resize-none outline-none
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-thumb]:bg-amber-200
+                [&::-webkit-scrollbar-thumb]:rounded-full
+                [&::-webkit-scrollbar-track]:bg-transparent
+              "
               placeholder="메모를 입력하세요..."
             ></textarea>
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-row justify-end gap-4">
+      <div className="w-full flex flex-row justify-center lg:justify-end gap-4">
         <Btn
           size="Large"
           type="Edit"

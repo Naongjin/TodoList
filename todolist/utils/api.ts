@@ -4,7 +4,11 @@ const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID;
 // 1. 목록 조회 (GET)
 export async function getItems() {
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items`);
-  if (!res.ok) throw new Error("목록 조회 실패");
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("서버 에러 응답:", errorText);
+    throw new Error("목록 조회 실패");
+  }
   return res.json();
 }
 
@@ -32,16 +36,26 @@ export async function updateItem(
   data: {
     name?: string;
     memo?: string;
-    imageUrl?: string;
+    imageUrl?: string | null;
     isCompleted?: boolean;
   },
 ) {
+  // imageUrl이 null이거나 비어있으면 객체에서 제거하여 서버 유효성 검사 우회
+  const payload: any = { ...data };
+  if (!payload.imageUrl) {
+    delete payload.imageUrl;
+  }
+
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items/${itemId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error("수정 실패");
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("서버 수정 실패 상세 에러:", errorText);
+    throw new Error("수정 실패");
+  }
   return res.json();
 }
 

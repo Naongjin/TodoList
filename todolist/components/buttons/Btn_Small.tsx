@@ -24,7 +24,7 @@ export default function Btn_Small({ type = "Plus", onChange }: BtnSmallProps) {
 
   return (
     <label
-      className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center`}
+      className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center cursor-pointer`}
     >
       <input
         type="file"

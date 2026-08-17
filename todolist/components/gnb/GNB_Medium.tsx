@@ -1,9 +1,9 @@
-import Image from "next/image";
-import ImgLarge from "../../assets/images/img-large.svg";
+import Logo from "../logo/Logo";
+
 export default function GNB_Medium() {
   return (
-    <div className="w-full h-[60px] flex pl-[24px]">
-      <Image src={ImgLarge} alt="로고" height={40}></Image>
+    <div className="w-full h-[60px] flex pl-[24px] border-1 border-slate-200 items-center">
+      <Logo size="Large" />
     </div>
   );
 }
