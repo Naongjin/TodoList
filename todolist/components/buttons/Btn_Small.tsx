@@ -1,12 +1,14 @@
 import Image from "next/image";
 import PlusIcon from "../../assets/icon/plus-gray.svg";
 import EditIcon from "../../assets/icon/edit.svg";
+import React from "react";
 
 interface BtnSmallProps {
   type: "Plus" | "Edit";
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function Btn_Small({ type = "Plus" }: BtnSmallProps) {
+export default function Btn_Small({ type = "Plus", onChange }: BtnSmallProps) {
   const config = {
     Plus: {
       imgSrc: PlusIcon,
@@ -21,10 +23,16 @@ export default function Btn_Small({ type = "Plus" }: BtnSmallProps) {
   const { imgSrc, colorClass } = config[type] || config.Plus;
 
   return (
-    <div
-      className={`w-[64px] h-[64px] ${colorClass} rounded-full flex items-center justify-center`}
+    <label
+      className={`w-16 h-16 ${colorClass} rounded-full flex items-center justify-center`}
     >
+      <input
+        type="file"
+        className="hidden"
+        accept="image/*"
+        onChange={onChange}
+      />
       <Image src={imgSrc} alt="icon" height={24}></Image>
-    </div>
+    </label>
   );
 }

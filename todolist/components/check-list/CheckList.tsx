@@ -8,7 +8,7 @@ import { useState } from "react";
 interface CheckListProps {
   onToggle?: () => void;
   label?: string;
-  checked: boolean;
+  checked?: boolean;
 }
 
 export default function CheckList({
@@ -22,9 +22,9 @@ export default function CheckList({
   return (
     <div
       onClick={onToggle}
-      className={`w-[527px] h-[50px] flex items-center border-[2px] rounded-[27px] px-[12px] py-[9px] ${bgClass}`}
+      className={`w-[527px] h-[50px] flex items-center border-2 rounded-[27px] px-3 py-[9px] ${bgClass}`}
     >
-      <div className="h-[32px] flex gap-[16px] items-center">
+      <div className="h-8 flex gap-4 items-center">
         <Image
           src={checked ? CheckBox_Checked : CheckBox}
           alt="로고"

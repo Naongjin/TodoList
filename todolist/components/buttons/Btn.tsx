@@ -3,7 +3,7 @@ import PlusWhite from "../../assets/icon/plus-white.svg";
 import XIcon from "../../assets/icon/X.svg";
 import CheckIcon from "../../assets/icon/check.svg";
 
-interface BtnProps {
+interface BtnProps extends React.HTMLAttributes<HTMLDivElement> {
   size: "Large" | "Small";
   type: "Add" | "Delete" | "Edit";
   state?: "Default" | "Active";
@@ -13,6 +13,8 @@ export default function Btn({
   size = "Large",
   type = "Add",
   state = "Default",
+  className = "",
+  ...props
 }: BtnProps) {
   const isLarge = size === "Large";
   const isActive = state === "Active";
@@ -43,7 +45,10 @@ export default function Btn({
   }
 
   return (
-    <div className="relative inline-block">
+    <div
+      className={`relative inline-block cursor-pointer ${className}`}
+      {...props}
+    >
       <div
         className={`relative z-10 ${sizeClass} flex items-center border-[2px] border-slate-900 ${bgClass} rounded-[24px] ${paddingClass}`}
       >
