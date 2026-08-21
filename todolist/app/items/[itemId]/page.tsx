@@ -80,11 +80,11 @@ export default function ItemDetailPage({ params }: PageProps) {
       setInitialName(name);
       setInitialMemo(memo);
       setInitialImageUrl(itemData.imageUrl || "");
-      alert("메모가 수정되었습니다.");
+      //alert("메모가 수정되었습니다.");
       router.push("/");
     } catch (err) {
       console.error("수정 실패", err);
-      alert("수정에 실패했습니다.");
+      //alert("수정에 실패했습니다.");
     }
   };
 
@@ -95,7 +95,7 @@ export default function ItemDetailPage({ params }: PageProps) {
       router.push("/");
     } catch (err) {
       console.error("삭제 실패", err);
-      alert("삭제에 실패했습니다.");
+      //alert("삭제에 실패했습니다.");
     }
   };
   if (!itemData) {
@@ -111,10 +111,10 @@ export default function ItemDetailPage({ params }: PageProps) {
       const uploadedUrl = await uploadImage(file);
 
       setItemData((prev: any) => ({ ...prev, imageUrl: uploadedUrl }));
-      alert("이미지가 성공적으로 업로드되었습니다.");
+      //alert("이미지가 성공적으로 업로드되었습니다.");
     } catch (err) {
       console.error("이미지 업로드 실패", err);
-      alert("이미지 업로드에 실패했습니다.");
+      //alert("이미지 업로드에 실패했습니다.");
     }
   };
 
@@ -195,7 +195,12 @@ export default function ItemDetailPage({ params }: PageProps) {
           state={editBtnState}
           onClick={handleEdit}
         ></Btn>
-        <Btn size="Large" type="Delete" onClick={handleDelete}></Btn>
+        <Btn
+          size="Large"
+          type="Delete"
+          state="Active"
+          onClick={handleDelete}
+        ></Btn>
       </div>
     </main>
   );

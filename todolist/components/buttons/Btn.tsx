@@ -7,17 +7,26 @@ interface BtnProps extends React.HTMLAttributes<HTMLDivElement> {
   size: "Large" | "Small";
   type: "Add" | "Delete" | "Edit";
   state?: "Default" | "Active";
+  disabled?: boolean;
 }
 
 export default function Btn({
   size = "Large",
   type = "Add",
   state = "Default",
+  disabled,
   className = "",
+  onClick,
   ...props
 }: BtnProps) {
   const isLarge = size === "Large";
-  const isActive = state === "Active";
+
+  // Active 상태
+  const isDelete = type === "Delete";
+  const currentActive = isDelete || state === "Active";
+
+  // disabled 지정 ( Default 상태이거나 명시적으로 disabled일 때 비활성화 처리 )
+  const isDisabled = disabled ?? !currentActive;
 
   //크기 별 클래스
   const sizeClass = isLarge ? "w-[164.35px] h-[52px]" : "w-[54.78px] h-[52px]";
@@ -28,7 +37,8 @@ export default function Btn({
   let bgClass = "bg-slate-200 text-slate-900";
   let textLabel = "추가하기";
   let icon = PlusWhite;
-  if (type === "Add" && isActive) {
+
+  if (type === "Add" && currentActive) {
     bgClass = "bg-violet-600 text-white";
   }
 
@@ -39,14 +49,24 @@ export default function Btn({
   } else if (type === "Edit") {
     textLabel = "수정완료";
     icon = CheckIcon;
-    if (isActive) {
+    if (currentActive) {
       bgClass = "bg-lime-300";
     }
   }
 
+  // 비활성화 클릭 방지
+  const disabledClass = isDisabled
+    ? "cursor-not-allowed pointer-events-none"
+    : "cursor-pointer";
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDisabled) return;
+    onClick?.(e);
+  };
+
   return (
     <div
-      className={`relative inline-block cursor-pointer ${className}`}
+      onClick={handleClick}
+      className={`relative inline-block ${className} ${disabledClass}`}
       {...props}
     >
       <div
@@ -57,9 +77,7 @@ export default function Btn({
             src={icon}
             alt="Icon"
             height={16}
-            className={
-              type === "Add" && state === "Default" ? "brightness-0" : ""
-            }
+            className={type === "Add" && !currentActive ? "brightness-0" : ""}
           ></Image>
           {isLarge && <div className="font-bold">{textLabel}</div>}
         </div>
