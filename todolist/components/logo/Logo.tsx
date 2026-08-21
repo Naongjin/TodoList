@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import Image from "next/image";
 import ImgLarge from "../../assets/images/img-large.svg";
 import ImgSmall from "../../assets/images/img-small.svg";
@@ -9,9 +10,14 @@ interface logoProps {
 
 export default function Logo({ size = "Large" }: logoProps) {
   const logoSrc = size === "Large" ? ImgLarge : ImgSmall;
+
+  const handleLogoClick = () => {
+    window.location.href = "/";
+  };
+
   return (
-    <Link href={`/`}>
+    <div onClick={handleLogoClick} className="cursor-pointer inline-block">
       <Image src={logoSrc} alt="로고" height={40}></Image>
-    </Link>
+    </div>
   );
 }
