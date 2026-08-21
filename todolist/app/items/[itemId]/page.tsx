@@ -59,6 +59,7 @@ export default function ItemDetailPage({ params }: PageProps) {
     fetchTodos();
   }, [numericId]);
 
+  // 수정 사항이 있을 시 수정 완료 버튼을 Active로 전환
   const isNameChanged = name !== initialName;
   const isMemoChanged = memo !== initialMemo;
   const currentImageUrl = itemData?.imageUrl || "";
@@ -87,6 +88,7 @@ export default function ItemDetailPage({ params }: PageProps) {
     }
   };
 
+  // 삭제하기 버튼 클릭 시
   const handleDelete = async () => {
     try {
       await deleteItem(numericId);
@@ -100,6 +102,7 @@ export default function ItemDetailPage({ params }: PageProps) {
     return <div className="text-center py-20 font-bold">로딩 중...</div>;
   }
 
+  // 이미지 업로드
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -115,6 +118,7 @@ export default function ItemDetailPage({ params }: PageProps) {
     }
   };
 
+  // 완료 상태 토글
   const handleToggle = async () => {
     try {
       await updateItem(numericId, {

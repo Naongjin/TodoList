@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
+
+  // 상세 페이지 이동
   const handleGoToDetail = (id: number) => {
     router.push(`/items/${id}`);
   };
@@ -50,16 +52,20 @@ export default function Home() {
     }
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Enter 키로 할 일 추가
     if (e.key === "Enter") {
       handleCreateItem();
     }
   };
 
+  // 할 일 입력이 된 경우에만 Active
   const addBtnState = keyword.trim() ? "Active" : "Default";
 
+  // Todo와 Done 분리
   const todoList = todos.filter((item) => !item.isCompleted);
   const doneList = todos.filter((item) => item.isCompleted);
 
+  // 할 일 완료 토글
   const handleToggle = async (todo: any) => {
     try {
       await updateItem(todo.id, {
