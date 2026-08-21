@@ -107,9 +107,28 @@ export default function ItemDetailPage({ params }: PageProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // 이미지 용량 제한 (5MB)
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      alert("이미지 크기는 5MB 이하여야 합니다.");
+      return;
+    }
+
+    // 이미지 파일 이름 영어로만 이루어지게 함
+    const fileNameWithoutExt = file.name.substring(
+      0,
+      file.name.lastIndexOf("."),
+    );
+    const engOnlyRegex = /^[a-zA-Z]+$/;
+    if (!engOnlyRegex.test(fileNameWithoutExt)) {
+      alert(
+        "이미지 파일 이름은 영어로만 작성해주세요. (숫자, 특수문자, 공백 불가)",
+      );
+      return;
+    }
+
     try {
       const uploadedUrl = await uploadImage(file);
-
       setItemData((prev: any) => ({ ...prev, imageUrl: uploadedUrl }));
       //alert("이미지가 성공적으로 업로드되었습니다.");
     } catch (err) {
