@@ -1,6 +1,6 @@
 # 📝 Todo List 서비스
 
-> 프론트엔드 단기심화 과정 지원자 과제 - Next.js 기반 할 일 관리 웹 서비스
+프론트엔드 단기심화 과정 지원자 과제 - Next.js 기반 할 일 관리 웹 서비스
 
 ---
 
@@ -67,24 +67,27 @@ src/
 ```
 ---
 
-Markdown
 ## ⚙️ 실행 방법 (Getting Started)
 
 1. **레포지토리 클론 및 이동**
+   
    ```bash
    git clone [레포지토리 URL]
    cd [프로젝트 폴더명]
-패키지 설치
 
-Bash
-npm install
-환경 변수 설정 (.env.local)
-프로젝트 루트에 .env.local 파일을 생성하고 아래 내용을 입력하세요.
+2. 패키지 설치
+   ```bash
+   npm install
 
-코드 스니펫
-NEXT_PUBLIC_API_BASE_URL=[https://assignment-todolist-api.vercel.app](https://assignment-todolist-api.vercel.app)
-NEXT_PUBLIC_TENANT_ID=naongjin
-개발 서버 실행
+3. 환경 변수 설정 (.env.local)
+   프로젝트 루트에 .env.local 파일을 생성하고 아래 내용을 입력하세요.
+   ```code
+   NEXT_PUBLIC_API_BASE_URL=[https://assignment-todolist-api.vercel.app](https://assignment-todolist-api.vercel.app)
+   NEXT_PUBLIC_TENANT_ID=본인의_tenantId_입력
+   ```
+   >참고: NEXT_PUBLIC_TENANT_ID 값에 본인의 닉네임이나 아이디를 입력하여 자신만의 할 일 목록을 관리하세요.
 
-Bash
-npm run dev
+4. 개발 서버 실행
+   ```bash
+   npm run dev
+   ```
