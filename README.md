@@ -67,25 +67,24 @@ src/
 ```
 ---
 
+Markdown
 ## ⚙️ 실행 방법 (Getting Started)
 
 1. **레포지토리 클론 및 이동**
    ```bash
    git clone [레포지토리 URL]
    cd [프로젝트 폴더명]
-   패키지 설치
-   ```
-2. **패키지 설치**
-  ```bash
-  npm install
-  ```
-3. **환경 변수 설정 (.env.local)**
-  프로젝트 루트에 .env.local 파일을 생성하고 아래 내용을 입력하세요.
-  ```코드스니펫
-  NEXT_PUBLIC_API_BASE_URL=[https://assignment-todolist-api.vercel.app](https://assignment-todolist-api.vercel.app)
-  NEXT_PUBLIC_TENANT_ID=naongjin  # 또는 본인의 식별자
-  ```
-4. **개발 서버 실행**
-  ```bash
-  npm run dev
-  ```
+패키지 설치
+
+Bash
+npm install
+환경 변수 설정 (.env.local)
+프로젝트 루트에 .env.local 파일을 생성하고 아래 내용을 입력하세요.
+
+코드 스니펫
+NEXT_PUBLIC_API_BASE_URL=[https://assignment-todolist-api.vercel.app](https://assignment-todolist-api.vercel.app)
+NEXT_PUBLIC_TENANT_ID=naongjin
+개발 서버 실행
+
+Bash
+npm run dev
