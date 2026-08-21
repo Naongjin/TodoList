@@ -1,7 +1,7 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID;
 
-// 1. 목록 조회 (GET)
+// 1. 할 일 목록 조회 (GET)
 export async function getItems() {
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items`);
   if (!res.ok) {
@@ -12,7 +12,7 @@ export async function getItems() {
   return res.json();
 }
 
-// 2. 항목 등록 (POST)
+// 2. 새로운 할 일 등록 (POST)
 export async function createItem(name: string) {
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items`, {
     method: "POST",
@@ -23,14 +23,14 @@ export async function createItem(name: string) {
   return res.json();
 }
 
-// 3. 상세 조회 (GET)
+// 3. 특정 할 일 상세 조회 (GET)
 export async function getItemDetail(itemId: number) {
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items/${itemId}`);
   if (!res.ok) throw new Error("상세 조회 실패");
   return res.json();
 }
 
-// 4. 수정 (PATCH)
+// 4. 할 일 정보 수정 (PATCH)
 export async function updateItem(
   itemId: number,
   data: {
@@ -59,7 +59,7 @@ export async function updateItem(
   return res.json();
 }
 
-// 5. 삭제 (DELETE)
+// 5. 할 일 삭제 (DELETE)
 export async function deleteItem(itemId: number) {
   const res = await fetch(`${BASE_URL}/api/${TENANT_ID}/items/${itemId}`, {
     method: "DELETE",
