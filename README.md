@@ -1,7 +1,3 @@
-# TodoList
-코드잇 프론트엔드 단기심화 과정 지원을 위한 투두리스트 과제입니다.
-
-
 # 📝 Todo List 서비스
 
 > 프론트엔드 단기심화 과정 지원자 과제 - Next.js 기반 할 일 관리 웹 서비스
@@ -14,7 +10,7 @@ Next.js와 TypeScript를 활용하여 컴포넌트 재사용성을 높이고, �
 
 - **디자인 시안**: [Figma 시안 링크](https://www.figma.com/design/zcM3VfCNbtiqt5aLhlv4sV/[KDT-단기심화]-지원자-과제)
 - **API 문서**: [Swagger 문서](https://assignment-todolist-api.vercel.app/docs/)
-- **배포 링크**: [Vercel 배포 링크 작성란] *(배포 후 링크를 입력해주세요)*
+- **배포 링크**: [Vercel 배포 링크](https://todo-list-naongjin.vercel.app/)
 
 ---
 
@@ -49,18 +45,45 @@ Next.js와 TypeScript를 활용하여 컴포넌트 재사용성을 높이고, �
 
 ---
 
-## 📂 폴더 구조 (예시)
+## 📂 폴더 구조
 ```text
 src/
  ┣ app/
  ┃ ┣ items/[itemId]/page.tsx  # 할 일 상세 페이지
  ┃ ┣ globals.css              # 전역 스타일 및 컬러 시스템
  ┃ ┣ layout.tsx               # 루트 레이아웃 (반응형 GNB 포함)
- ┃ ┗ page.tsx                 # 할 일 목록 페이지 (메인)
+ ┃ ┣ page.tsx                 # 할 일 목록 페이지 (메인)
+ ┃ ┗ assets/                  # 이미지, 로고 에셋 정리 폴더
  ┣ components/
  ┃ ┣ buttons/                 # 버튼 공용 컴포넌트
  ┃ ┣ check-list/              # 체크리스트 컴포넌트
  ┃ ┣ gnb/                     # 네비게이션바 컴포넌트
+ ┃ ┣ logo/                    # 로고 컴포넌트 (홈화면 이동 관리)
  ┃ ┗ search/                  # 검색/입력 컴포넌트
+ ┣ types/
+ ┃ ┗ todo.ts                  # API 인터페이스 타입 정의
  ┗ utils/
    ┗ api.ts                   # API 연동 함수 (getItems, createItem, updateItem 등)
+```
+## ⚙️ 실행 방법 (Getting Started)
+
+1. **레포지토리 클론 및 이동**
+   ```bash
+   git clone [레포지토리 URL]
+   cd [프로젝트 폴더명]
+   패키지 설치
+   ```
+2. **패키지 설치**
+  ```bash
+  npm install
+  ```
+3. **환경 변수 설정 (.env.local)**
+  프로젝트 루트에 .env.local 파일을 생성하고 아래 내용을 입력하세요.
+  ```코드스니펫
+  NEXT_PUBLIC_API_BASE_URL=[https://assignment-todolist-api.vercel.app](https://assignment-todolist-api.vercel.app)
+  NEXT_PUBLIC_TENANT_ID=naongjin  # 또는 본인의 식별자
+  ```
+4. **개발 서버 실행**
+  ```bash
+  npm run dev
+  ```
