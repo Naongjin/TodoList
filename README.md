@@ -65,6 +65,8 @@ src/
  ┗ utils/
    ┗ api.ts                   # API 연동 함수 (getItems, createItem, updateItem 등)
 ```
+---
+
 ## ⚙️ 실행 방법 (Getting Started)
 
 1. **레포지토리 클론 및 이동**
